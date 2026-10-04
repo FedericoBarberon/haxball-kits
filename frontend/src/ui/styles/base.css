@@ -1,0 +1,683 @@
+@import './tokens.css';
+
+:root {
+  color: var(--text);
+  background: var(--bg);
+  font-family: var(--font-sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 500px;
+  height: 600px;
+  margin: 0;
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+}
+
+button:focus-visible,
+[tabindex='0']:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+#root,
+.popup {
+  width: 500px;
+  height: 600px;
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  flex: 0 0 44px;
+  padding: 0 calc(var(--space) * 2);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.logo-mark {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--blue);
+  stroke-linecap: round;
+  stroke-width: 2;
+}
+
+.tabs {
+  display: flex;
+  flex: 0 0 40px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.tab {
+  flex: 1;
+  min-width: 0;
+  padding: 0 4px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  background: transparent;
+  cursor: pointer;
+  font-size: 11px;
+  transition:
+    color var(--transition),
+    border-color var(--transition);
+}
+
+.tab:hover,
+.tab[aria-selected='true'] {
+  color: var(--text);
+}
+
+.tab[aria-selected='true'] {
+  border-bottom-color: var(--blue);
+}
+
+.tab-panel {
+  flex: 1;
+  min-height: 0;
+  padding: calc(var(--space) * 2);
+  overflow: hidden;
+}
+
+.create-view {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.create-scroll {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  padding-inline: 4px;
+}
+
+.create-preview {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 10px;
+}
+
+.form-field {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 10px;
+  color: var(--text);
+  font-size: 12px;
+}
+
+.form-field > span,
+.form-field legend {
+  font-weight: 600;
+}
+
+.form-field input[type='text'],
+.form-field input[type='number'] {
+  width: 100%;
+  min-height: 29px;
+  padding: 4px 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-button);
+  color: var(--text);
+  background: var(--surface);
+  font-size: 12px;
+}
+
+.form-field input[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+.form-field small {
+  color: var(--text-muted);
+  font-size: 10px;
+  text-align: right;
+}
+
+.form-field em {
+  color: var(--danger);
+  font-size: 10px;
+  font-style: normal;
+}
+
+.angle-controls {
+  display: grid;
+  grid-template-columns: 1fr 62px;
+  align-items: center;
+  gap: 8px;
+}
+
+.angle-controls input[type='range'] {
+  accent-color: var(--blue);
+}
+
+.shirt-color-row {
+  display: grid;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-field {
+  display: grid;
+  gap: 5px;
+}
+
+.color-field-label {
+  font-weight: 600;
+}
+
+.color-field-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 34px;
+  padding: 8px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-button);
+  color: var(--text);
+  background: var(--surface);
+  cursor: pointer;
+  text-align: left;
+}
+
+.color-field-trigger:hover {
+  border-color: var(--blue);
+}
+
+.color-picker-dialog {
+  display: grid;
+  gap: 12px;
+  width: min(320px, calc(100vw - 32px));
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 35%);
+}
+
+.color-picker-dialog h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.color-picker-dialog .react-colorful {
+  width: 100%;
+  height: 180px;
+}
+
+.color-picker-hex {
+  display: grid;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.color-picker-hex input {
+  min-height: 32px;
+  padding: 4px 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-button);
+  color: var(--text);
+  background: var(--surface-2);
+  font: inherit;
+}
+
+.color-swatch {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-button);
+}
+
+.colors-field {
+  min-width: 0;
+  margin: 0 0 10px;
+  padding: 0;
+  border: 0;
+}
+
+.colors-field legend {
+  margin-bottom: 4px;
+}
+
+.shirt-color-row {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 5px;
+}
+
+.shirt-color-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+}
+
+.shirt-color-actions .color-field {
+  min-width: 0;
+  flex: 1;
+  height: 100%;
+}
+
+.shirt-color-actions .color-field-trigger {
+  height: 100%;
+}
+
+.remove-color-button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 100%;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-button);
+  color: var(--danger);
+  background: var(--surface-2);
+  cursor: pointer;
+}
+
+.remove-color-button svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.remove-color-button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.add-color-button {
+  margin-top: 3px;
+}
+
+.command-preview {
+  display: block;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-button);
+  color: var(--text-muted);
+  background: var(--surface);
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.switch-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  color: var(--text);
+  font-size: 12px;
+}
+
+.switch-field input {
+  accent-color: var(--blue);
+}
+
+.primary-button {
+  flex: 0 0 34px;
+  border: 1px solid var(--blue);
+  border-radius: var(--radius-button);
+  color: var(--text);
+  background: var(--blue);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.primary-button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgb(0 0 0 / 55%);
+}
+
+.confirm-dialog {
+  width: min(100%, 330px);
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 35%);
+}
+
+.confirm-dialog p {
+  margin: 0 0 16px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.confirm-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.confirm-dialog-actions .primary-button,
+.confirm-dialog-actions .secondary-button {
+  min-height: 30px;
+  padding: 0 10px;
+}
+
+.tab-panel h1 {
+  margin: 0 0 var(--space);
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.tab-panel p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.list-view {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.list-scroll {
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.list-scroll .shirt-grid {
+  height: 100%;
+}
+
+.admin-note {
+  flex: 0 0 auto;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 10px;
+  text-align: center;
+}
+
+.shirt-preview {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 2px solid black;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 18%);
+  font-weight: 800;
+  line-height: 1;
+  overflow: hidden;
+  user-select: none;
+}
+
+.shirt-card {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 142px;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.shirt-card-preview {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 0 12px;
+  min-height: 66px;
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  padding: 4px;
+  border: 0;
+  border-radius: 50%;
+  color: var(--text-muted);
+  background: var(--surface-2);
+  cursor: pointer;
+}
+
+.icon-button:hover,
+.icon-button.is-favorite,
+.icon-button.is-published {
+  color: var(--fav);
+}
+
+.icon-button:disabled {
+  cursor: default;
+}
+
+.icon-button svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 1.7;
+}
+
+.favorite-button,
+.publish-button {
+  position: absolute;
+  top: 0;
+}
+
+.favorite-button {
+  right: 0;
+}
+
+.publish-button {
+  left: 0;
+}
+
+.delete-button {
+  position: absolute;
+  top: 31px;
+  right: 0;
+  color: var(--danger);
+}
+
+.delete-button:hover {
+  color: var(--danger);
+}
+
+.delete-button svg,
+.publish-button svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.shirt-card-name {
+  margin: 0;
+  overflow: hidden;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.shirt-card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.team-button,
+.delete-button,
+.secondary-button,
+.pagination button {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-button);
+  color: var(--text);
+  background: var(--surface-2);
+  cursor: pointer;
+  font-size: 11px;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.team-button {
+  min-height: 25px;
+}
+
+.team-button-red {
+  border-color: color-mix(in srgb, var(--red) 65%, var(--border));
+}
+
+.team-button-blue {
+  border-color: color-mix(in srgb, var(--blue) 65%, var(--border));
+}
+
+.team-button:hover,
+.delete-button:hover,
+.secondary-button:hover,
+.pagination button:hover:not(:disabled) {
+  background: var(--surface);
+}
+
+.shirt-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  align-content: start;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.pagination {
+  display: flex;
+  flex: 0 0 40px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.pagination button {
+  min-height: 27px;
+  padding: 0 7px;
+}
+
+.pagination button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.view-state {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  min-height: 160px;
+  gap: 10px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.view-state p {
+  margin: 0;
+}
+
+.skeleton-preview {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, var(--surface-2), var(--border), var(--surface-2));
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.2s infinite;
+}
+
+.secondary-button {
+  padding: 7px 10px;
+}
+
+.toast {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-button);
+  color: var(--text);
+  background: var(--surface-2);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 25%);
+  font-size: 12px;
+}
+
+.toast-dismiss {
+  padding: 0;
+  border: 0;
+  color: var(--text-muted);
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+@keyframes skeleton-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}

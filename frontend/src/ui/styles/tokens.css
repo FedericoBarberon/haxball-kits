@@ -1,0 +1,17 @@
+:root {
+  --bg: #14181f;
+  --surface: #1d232d;
+  --surface-2: #262e3a;
+  --border: #2c3542;
+  --text: #e6e9ef;
+  --text-muted: #8b95a5;
+  --red: #d64545;
+  --blue: #3f7be0;
+  --fav: #f5c451;
+  --danger: #e5484d;
+  --space: 8px;
+  --radius-card: 8px;
+  --radius-button: 6px;
+  --transition: 120ms ease;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
