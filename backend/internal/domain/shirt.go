@@ -51,39 +51,45 @@ func (s Shirt) OwnedBy(token string) bool {
 	return subtle.ConstantTimeCompare([]byte(s.OwnerTokenHash), []byte(token)) == 1
 }
 
+func (s Shirt) Clone() Shirt {
+	clone := s
+	clone.Colors = slices.Clone(s.Colors)
+	return clone
+}
+
 func validateShirt(shirt Shirt) *ValidationError {
 	if len(shirt.Name) == 0 {
-		return errEmptyName()
+		return ErrEmptyName()
 	}
 
 	if len(shirt.Name) > maxNameLength {
-		return errNameTooLong(maxNameLength)
+		return ErrNameTooLong(maxNameLength)
 	}
 
 	if a := shirt.Angle; a < 0 || a >= 360 {
-		return errInvalidAngle()
+		return ErrInvalidAngle()
 	}
 
 	if !isValidHex(shirt.TextColor) {
-		return errInvalidTextColor()
+		return ErrInvalidTextColor()
 	}
 
 	if l := len(shirt.Colors); l < 1 || l > 3 {
-		return errInvalidNumberOfColors()
+		return ErrInvalidNumberOfColors()
 	}
 
 	for i := range shirt.Colors {
 		if !isValidHex(shirt.Colors[i]) {
-			return errInvalidColorsValues()
+			return ErrInvalidColorsValues()
 		}
 	}
 
 	if _, err := uuid.Parse(shirt.ID); err != nil {
-		return errInvalidID(shirt.ID)
+		return ErrInvalidID(shirt.ID)
 	}
 
 	if len(shirt.OwnerTokenHash) == 0 {
-		return errInvalidToken()
+		return ErrInvalidToken()
 	}
 
 	return nil
