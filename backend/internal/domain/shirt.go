@@ -2,7 +2,6 @@ package domain
 
 import (
 	"crypto/subtle"
-	"fmt"
 	"slices"
 	"strings"
 	"time"
@@ -29,47 +28,6 @@ type NewShirtInput struct {
 
 const maxNameLength = 24
 
-type ValidationError struct {
-	Field   string
-	Message string
-}
-
-func (v ValidationError) Error() string {
-	return v.Field + ": " + v.Message
-}
-
-func errNameTooLong(max int) *ValidationError {
-	return &ValidationError{Field: "name", Message: fmt.Sprintf("max %d bytes", max)}
-}
-
-func errInvalidID(id string) *ValidationError {
-	return &ValidationError{Field: "id", Message: id + " is not a valid UUID"}
-}
-
-func errInvalidToken() *ValidationError {
-	return &ValidationError{Field: "ownedToken", Message: "ownerToken cannot be empty"}
-}
-
-func errEmptyName() *ValidationError {
-	return &ValidationError{Field: "name", Message: "name cannot be empty"}
-}
-
-func errInvalidAngle() *ValidationError {
-	return &ValidationError{Field: "angle", Message: "angle must be in range [0;360)"}
-}
-
-func errInvalidTextColor() *ValidationError {
-	return &ValidationError{Field: "textColor", Message: "textColor must be a valid hex number starting with '#'"}
-}
-
-func errInvalidColorsValues() *ValidationError {
-	return &ValidationError{Field: "colors", Message: "all colors must be a valid hex number starting with '#'"}
-}
-
-func errInvalidNumberOfColors() *ValidationError {
-	return &ValidationError{Field: "colors", Message: "there must be at least one color and a maximum of three"}
-}
-
 func NewShirt(in NewShirtInput, createdAt time.Time, ownerTokenHash string) (Shirt, error) {
 	shirt := Shirt{
 		ID:             in.ID,
@@ -86,20 +44,11 @@ func NewShirt(in NewShirtInput, createdAt time.Time, ownerTokenHash string) (Shi
 	}
 
 	normalizeShirt(&shirt)
-
 	return shirt, nil
 }
 
 func (s Shirt) OwnedBy(token string) bool {
 	return subtle.ConstantTimeCompare([]byte(s.OwnerTokenHash), []byte(token)) == 1
-}
-
-func normalizeShirt(shirt *Shirt) {
-	shirt.TextColor = strings.ToLower(shirt.TextColor)
-
-	for i := range shirt.Colors {
-		shirt.Colors[i] = strings.ToLower(shirt.Colors[i])
-	}
 }
 
 func validateShirt(shirt Shirt) *ValidationError {
@@ -140,16 +89,10 @@ func validateShirt(shirt Shirt) *ValidationError {
 	return nil
 }
 
-func isValidHex(s string) bool {
-	if len(s) != 7 || s[0] != '#' {
-		return false
-	}
+func normalizeShirt(shirt *Shirt) {
+	shirt.TextColor = strings.ToLower(shirt.TextColor)
 
-	for _, c := range s[1:] {
-		if !(c >= '0' && c <= '9' || c >= 'a' && c <= 'f' || c >= 'A' && c <= 'F') {
-			return false
-		}
+	for i := range shirt.Colors {
+		shirt.Colors[i] = strings.ToLower(shirt.Colors[i])
 	}
-
-	return true
 }
