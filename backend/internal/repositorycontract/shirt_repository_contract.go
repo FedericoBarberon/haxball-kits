@@ -176,6 +176,25 @@ func RunShirtRepositoryContract(t *testing.T, newRepository RepositoryFactory) {
 		}
 	})
 
+	t.Run("list with zero page size returns non nil empty slice", func(t *testing.T) {
+		repo := newRepository()
+		shirt := testShirt("shirt-1", "Classic", time.Date(2026, 1, 2, 3, 4, 5, 0, time.UTC))
+		if err := repo.Create(shirt); err != nil {
+			t.Fatalf("Create() unexpected error: %v", err)
+		}
+
+		items, err := repo.List(1, 0)
+		if err != nil {
+			t.Fatalf("List() with zero page size unexpected error: %v", err)
+		}
+		if items == nil {
+			t.Fatal("List() with zero page size returned nil slice, want non-nil empty slice")
+		}
+		if len(items) != 0 {
+			t.Errorf("len(List()) with zero page size = %d, want 0", len(items))
+		}
+	})
+
 	t.Run("list is ordered by createdAt name and id", func(t *testing.T) {
 		repo := newRepository()
 		shirts := []domain.Shirt{
