@@ -26,7 +26,7 @@ type NewShirtInput struct {
 	Colors    []string
 }
 
-const maxNameLength = 24
+const MAX_NAME_LENGTH = 24
 
 func NewShirt(in NewShirtInput, createdAt time.Time, ownerTokenHash string) (Shirt, error) {
 	shirt := Shirt{
@@ -62,8 +62,8 @@ func validateShirt(shirt Shirt) *ValidationError {
 		return ErrEmptyName()
 	}
 
-	if len(shirt.Name) > maxNameLength {
-		return ErrNameTooLong(maxNameLength)
+	if len(shirt.Name) > MAX_NAME_LENGTH {
+		return ErrNameTooLong(MAX_NAME_LENGTH)
 	}
 
 	if a := shirt.Angle; a < 0 || a >= 360 {
