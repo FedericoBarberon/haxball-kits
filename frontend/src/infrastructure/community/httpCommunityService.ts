@@ -11,7 +11,7 @@ export class HttpCommunityService implements CommunityService {
     fetcher: typeof fetch = fetch,
   ) {
     this.baseUrl = baseUrl
-    this.fetcher = fetcher
+    this.fetcher = fetcher.bind(globalThis)
   }
 
   async list(params: { page: number; pageSize: number }): Promise<Page<Shirt>> {

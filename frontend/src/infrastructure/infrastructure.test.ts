@@ -75,6 +75,19 @@ describe('infrastructure adapters', () => {
     await expect(failing.list({ page: 1, pageSize: 12 })).rejects.toMatchObject({ code: 'NOT_FOUND' })
   })
 
+  it('binds the HTTP fetcher to the global object', async () => {
+    let receiver: unknown
+    const fetcher: typeof fetch = function (this: unknown) {
+      receiver = this
+      return Promise.resolve(new Response(JSON.stringify({ items: [], total: 0 }), { status: 200 }))
+    }
+    const service = new HttpCommunityService('https://api.example', fetcher)
+
+    await service.list({ page: 1, pageSize: 12 })
+
+    expect(receiver).toBe(globalThis)
+  })
+
   it('executes the command in every frame on a Haxball host', async () => {
     let capturedDetails: Parameters<ChromeApi['scripting']['executeScript']>[0] | undefined
     const executeScript = vi.fn(async (details: Parameters<ChromeApi['scripting']['executeScript']>[0]) => {
